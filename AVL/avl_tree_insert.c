@@ -264,7 +264,7 @@ struct node* balanceTree (struct node *tree, bool *ht_inc)
             {
                 // R0 or R1 rotation: the new node is deleted in the left sub-tree of
                 // the left sub-tree of the critical node
-                puts("R0 or R1 Rotation");
+                puts("R0 Rotation");
                 tree->left = aptr->right; // T2 is made left sub-tree of A (see slide 46)
                 aptr->right = tree;             // A is made right sub-tree of B (see slide 46)
                 tree->balance = 0;
