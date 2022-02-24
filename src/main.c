@@ -1,4 +1,4 @@
-#include <stdio.h> SIDAN 321 i I BOKEN BESKRIVER BINARY SEARCHTREES.
+#include <stdio.h>
 
 #define SECPERTASK 2 // On average there will be one print task in 2 seconds.
 
