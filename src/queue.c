@@ -21,15 +21,17 @@ int insert_heap(Minheap *h, Task *t) { // Inserts a task at the end of the heap.
     else {
         n =+ n;
         pos = n;
-        h->t = t; // Känns mer rätt men vetifan hur det ska placera min task i arrayen?
-        h->heap[pos] = h->t->pages; // Vetifan hur jag ska använda mig av arrayen men paus nu tror jag.
+        n++;
+        // h->t = t; // Känns mer rätt men vetifan hur det ska placera min task i arrayen?
+        // h->heap[pos] = h->t->pages; // Vetifan hur jag ska använda mig av arrayen men paus nu tror jag.
+        h->heap[pos] = t;
         while (pos < 1) {
             int par = pos % 2;
-            if (h->heap[pos] <= h->heap[par]) return 1; // Task was inserted to heap.
+            if (h->heap[pos]->pages <= h->heap[par]->pages) return 1; // Task was inserted to heap.
             else { // Swaps the inserted value with the parents value.
-                int temp = h->heap[pos];
-                h->heap[pos] = h->heap[par];
-                h->heap[par] = temp;
+                int temp = h->heap[pos]->pages;
+                h->heap[pos]->pages = h->heap[par]->pages;
+                h->heap[par]->pages = temp;
                 pos = par;
             }
         }
@@ -38,24 +40,24 @@ int insert_heap(Minheap *h, Task *t) { // Inserts a task at the end of the heap.
 }
 
 int delete_heap(Minheap *h) { // Delete a task from the heap.
-    if (is_empty == 1) return 0;
+    if ((is_empty(h)) == 1) return 0;
     else {
         int ptr = 0, left = 1, right = 2;
-        int last = h->heap[n];
+        int last = h->heap[n]->pages;
         n =- n;
-        h->heap[ptr] = last;
+        h->heap[ptr]->pages = last;
         while (left <= n) {
-            if (h->heap[ptr] >= h->heap[left] && h->heap[ptr] >= h->heap[right]) return 1;
-            if(h->heap[right] <= h->heap[left]) {
-                int temp = h->heap[ptr];
-                h->heap[ptr] = h->heap[left];
-                h->heap[left] = temp;
+            if (h->heap[ptr]->pages >= h->heap[left]->pages && h->heap[ptr]->pages >= h->heap[right]->pages) return 1;
+            if(h->heap[right]->pages <= h->heap[left]->pages) {
+                int temp = h->heap[ptr]->pages;
+                h->heap[ptr]->pages = h->heap[left]->pages;
+                h->heap[left]->pages = temp;
                 ptr = left;
             }
             else {
-                int temp = h->heap[ptr];
-                h->heap[ptr] = h->heap[right];
-                h->heap[right] = temp;
+                int temp = h->heap[ptr]->pages;
+                h->heap[ptr]->pages = h->heap[right]->pages;
+                h->heap[right]->pages = temp;
                 ptr = right;
             }
             left = 2 * ptr;
@@ -66,10 +68,10 @@ int delete_heap(Minheap *h) { // Delete a task from the heap.
 }
 
 Task *findmin(Minheap *h) {
-    if (is_empty == 1) return NULL;
+    if (is_empty(h) == 1) return NULL;
     else {
         for (size_t i = 0; i < MAX; i++) {
-            int minPages = (h->heap[i] < minPages) ? h->heap[i] : minPages;
+            int minPages = (h->heap[i]->pages < minPages) ? h->heap[i]->pages : minPages;
         }
     }
     Task *t; // Vet inte än hur jag ska göra här...
@@ -87,10 +89,11 @@ void display_heap(Minheap *h) { // Displays all the tasks in the heap.
     if(is_empty(h) == 1) puts("HEAP IS EMPTY");
     else {
         puts("TASKS IN HEAP:");
-        for(size_t i; i < MAX; i++) {
-            printf("TASK [arravies at %d second, %d pages]\n", h->t->time_stamp, h->t->pages);
+        size_t i;
+        for(; i < MAX; i++) {
+            printf("TASK [arravies at %d second, %d pages]\n", h->heap[i]->time_stamp, h->heap[i]->pages);
         }
-        printf("TASK [arravies at %d second, %d pages]\n", h->t->time_stamp, h->t->pages);
+        printf("TASK [arravies at %d second, %d pages]\n", h->heap[i]->time_stamp, h->heap[i]->pages);
     }
 }
 

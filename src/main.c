@@ -21,6 +21,36 @@ void main() {
     Task *t = create_task(ct);
     int flag = insert_heap(h, t);
     (flag == 0) ? puts("Heap is full") : puts("Insertion was successful");
+    t = create_task(ct);
+    flag = insert_heap(h, t);
+    (flag == 0) ? puts("Heap is full") : puts("Insertion was successful");
+    t = create_task(ct);
+    flag = insert_heap(h, t);
+    (flag == 0) ? puts("Heap is full") : puts("Insertion was successful");
+    t = create_task(ct);
+    flag = insert_heap(h, t);
+    (flag == 0) ? puts("Heap is full") : puts("Insertion was successful");
+    t = create_task(ct);
+    flag = insert_heap(h, t);
+    (flag == 0) ? puts("Heap is full") : puts("Insertion was successful");
+    t = create_task(ct);
+    flag = insert_heap(h, t);
+    (flag == 0) ? puts("Heap is full") : puts("Insertion was successful");
+    t = create_task(ct);
+    flag = insert_heap(h, t);
+    (flag == 0) ? puts("Heap is full") : puts("Insertion was successful");
+    t = create_task(ct);
+    flag = insert_heap(h, t);
+    (flag == 0) ? puts("Heap is full") : puts("Insertion was successful");
+    t = create_task(ct);
+    flag = insert_heap(h, t);
+    (flag == 0) ? puts("Heap is full") : puts("Insertion was successful");
+    t = create_task(ct);
+    flag = insert_heap(h, t);
+    (flag == 0) ? puts("Heap is full") : puts("Insertion was successful");
+    t = create_task(ct);
+    flag = insert_heap(h, t);
+    (flag == 0) ? puts("Heap is full") : puts("Insertion was successful");
     // p->time_remaining = 0; // Sets remaining time to 0 to kick of the printer simulation.
     // while (ct != 10) { // Loops until current time has reached 10 seconds
     //     printer_status(p); // Displays the printers status to the screen.

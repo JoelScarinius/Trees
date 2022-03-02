@@ -15,9 +15,7 @@
 //complete this in .c file.
 // typedef struct minheap Minheap;
 typedef struct minheap {
-    int heap[MAX];
-    // int front, rear, heap[MAX];
-    Task *t;
+    Task *heap[MAX];
 } Minheap;
 
 //create an empty binary heap
