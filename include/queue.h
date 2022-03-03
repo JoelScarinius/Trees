@@ -9,11 +9,10 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-#define MAX 20
+#define MAX 20 // This define sets the maximum size of the array used to implement the min binary heap.
 
 //an incomplete declaration for a min binary heap
 //complete this in .c file.
-// typedef struct minheap Minheap;
 typedef struct minheap {
     Task *heap[MAX];
 } Minheap;
@@ -43,7 +42,7 @@ void destroy_heap(Minheap *h);
 //parameters: h, the pointer points to the heap.
 void display_heap(Minheap *h);
 //check whether the queue is empty
-//parameters: *q, the pointer that points to the queue 
+//parameters: *h, the pointer that points to the heap 
 //returns: 1 (true) or 0 (false)
 int is_empty(Minheap *h);
 

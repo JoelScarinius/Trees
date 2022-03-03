@@ -6,7 +6,8 @@
 #include "queue.h"
 #include "printer.h"
 
-// #define SECPERTASK 2 // On average there will be one print task in 2 seconds.
+#define N 1 // On average there will be one print task in N seconds.
+#define P 60 // The printer in the lab can process P pages per minute (i.e. 60 seconds) at good quality.
 
 static void printWelcomeMessage(); // This function prints a short welcome message.
 
@@ -15,67 +16,44 @@ void main() {
     srand(time(NULL)); // Seeds the random function to not create the same sequences.
     int ct = 1; // Variable used to display current time in second.
     Printer *p = (Printer*)malloc(sizeof(Printer)); // Allocates memory for the printer.
-    p->page_rate = 60; // One page per second.
-    Minheap *h = create_heap();
-    // Task *t = NULL;
-    Task *t = create_task(ct);
-    int flag = insert_heap(h, t);
-    (flag == 0) ? puts("Heap is full") : puts("Insertion was successful");
-    t = create_task(ct);
-    flag = insert_heap(h, t);
-    (flag == 0) ? puts("Heap is full") : puts("Insertion was successful");
-    t = create_task(ct);
-    flag = insert_heap(h, t);
-    (flag == 0) ? puts("Heap is full") : puts("Insertion was successful");
-    t = create_task(ct);
-    flag = insert_heap(h, t);
-    (flag == 0) ? puts("Heap is full") : puts("Insertion was successful");
-    t = create_task(ct);
-    flag = insert_heap(h, t);
-    (flag == 0) ? puts("Heap is full") : puts("Insertion was successful");
-    t = create_task(ct);
-    flag = insert_heap(h, t);
-    (flag == 0) ? puts("Heap is full") : puts("Insertion was successful");
-    t = create_task(ct);
-    flag = insert_heap(h, t);
-    (flag == 0) ? puts("Heap is full") : puts("Insertion was successful");
-    t = create_task(ct);
-    flag = insert_heap(h, t);
-    (flag == 0) ? puts("Heap is full") : puts("Insertion was successful");
-    t = create_task(ct);
-    flag = insert_heap(h, t);
-    (flag == 0) ? puts("Heap is full") : puts("Insertion was successful");
-    t = create_task(ct);
-    flag = insert_heap(h, t);
-    (flag == 0) ? puts("Heap is full") : puts("Insertion was successful");
-    t = create_task(ct);
-    flag = insert_heap(h, t);
-    (flag == 0) ? puts("Heap is full") : puts("Insertion was successful");
-    // p->time_remaining = 0; // Sets remaining time to 0 to kick of the printer simulation.
-    // while (ct != 10) { // Loops until current time has reached 10 seconds
-    //     printer_status(p); // Displays the printers status to the screen.
-    //     if ((1 + rand() % 10) > 5 || ct == 1) { // 50/50 chans to create a task, but always creates a task at first iteration.
-    //         t = create_task(ct); // Creates a new task.
-    //         // Puts the new task in the end of the queue.
-    //     }
-    //     if (p->time_remaining > 0) printf("%d seconds to complete the current task\n", p->time_remaining);
-    //     // Displays the entire queue.
-    //     if (is_empty(h) == 0 && is_busy(p) == 0) { // If the queue isn't empty and the printer isn't busy dequeue and start task.
-    //          // Deletes the first task from the queue.
-    //         start_next(p, t); // Starts printing the task that was deleted from the queue.
-    //         p->time_remaining = t->pages + SECPERTASK; // Initialize time remaining with proper time in seconds to preform task.
-    //     }
-    //     if (p->time_remaining > 0) tick(p); // Decrement the remaining time with 1 second.
-    //     ct++; // Increment current time by 1 second.
-    // }
+    p->page_rate = P; // Decides the time it takes to print P pages per minute at good quality.
+    p->current_task = NULL; // Sets the printer to be empty from start.
+    p->time_remaining = 0; // Sets remaining time to 0 to kick of the printer simulation.
+    Minheap *h = create_heap(); // Allocates memory for the binary heap and initializes its elements to NULL.
+    Task *t = NULL;
+    printf("\n Simulation starts...");
+    while (ct != 10) { // Loops until current time has reached its limit.
+        printer_status(p); // Displays the printers status to the screen.
+        if (p->time_remaining > 0) printf("%d seconds to complete the current task.\n", p->time_remaining);
+        // On average there will be one print task in N seconds but it is restricted to always creat a task at first iteration.
+        if ((1 + rand() % N) == N || ct == 1) { 
+            t = create_task(ct); // Creates a new task.
+            // Inserts the new task at the correct place in the binary heap (if it is not full).
+            if (insert_heap(h, t) == 0) puts("CAN'T INSERT TASK TO FULL QUEUE");
+        }
+        display_heap(h); // Displays the entire queue.
+        if (is_busy(p) == 0) { // If the printer isn't busy.
+            t = findmin(h); // Find task with the smallest number of pages.
+            if (delete_heap(h) == 0) puts("CAN'T DELETE TASK FROM EMPTY QUEUE"); // Deletes task from the queue (if it is not empty).
+            else {
+                start_next(p, t); // Starts printing the task that was deleted from the queue.
+                p->time_remaining = t->pages * (P / 60); // Initialize time remaining with proper time in seconds to preform task.
+            }
+        }
+        if (p->time_remaining > 0) tick(p); // Decrement the remaining time of a task with 1 second.
+        ct++; // Increment current time by 1 second.
+    }
+    destroy_heap(h); // Frees the memory allocated for the binary heap.
     puts("\nSIMULATION ENDS");
     fflush(stdin);
     getchar();
 }
+
 static void printWelcomeMessage() { // Prints welcome message to the screen.
-    puts("****************************************************************************************************\n"
+    puts("*********************************************************************************************\n"
         "Welcome!\n"
-        "This is a program that uses a queue implemented as a linkedlist to create a simulation of a printer.\n"
+        "This is a program that uses a binary heap implemented as an array to create a priority queue\n"
+        "that is used to preform a simulation of a laboratory printer.\n"
         "Please enjoy!\n"
-        "****************************************************************************************************");
+        "*********************************************************************************************");
 }

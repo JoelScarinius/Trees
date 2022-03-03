@@ -2,8 +2,6 @@
 #ifndef TASK_H_ /* Include guard */
 #define TASK_H_
 
-#define MAXPAGES 5 // Maximum number of pages that a task can have.
-
 //declare task
 typedef struct task{
     //the timestamp when the printing task arrives 
